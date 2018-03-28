@@ -1,0 +1,169 @@
+#define MAX7219_DIN 4
+#define MAX7219_CS  3
+#define MAX7219_CLK 2
+
+//Grote letter zonder punt
+const byte A=B01110111;
+const byte B=B01111111;
+const byte C=B01001110;
+const byte D=B00111101;
+const byte E=B01001111;
+const byte F=B01000111;
+const byte G=B01011110;
+const byte H=B00110111;
+const byte I=B00110000;
+const byte J=B00111100;
+const byte L=B00001110;
+const byte N=B01110110;
+const byte O=B01111110;
+const byte P=B01100111;
+const byte Q=B01110011;
+const byte R=B01100110;
+const byte S=B01011011;
+const byte T=B00001111;
+const byte U=B00111110;
+const byte Y=B00111011;
+const byte Z=B01101101;
+
+//Grote letter met punt
+const byte APUNT=B11110111;
+const byte BPUNT=B11111111;
+const byte CPUNT=B11001110;
+const byte DPUNT=B10111101;
+const byte EPUNT=B11001111;
+const byte FPUNT=B11000111;
+const byte GPUNT=B11011110;
+const byte HPUNT=B10110111;
+const byte IPUNT=B10110000;
+const byte JPUNT=B10111100;
+const byte LPUNT=B10001110;
+const byte NPUNT=B11110110;
+const byte OPUNT=B11111110;
+const byte PPUNT=B11100111;
+const byte QPUNT=B11110011;
+const byte RPUNT=B11100110;
+const byte SPUNT=B11011011;
+const byte TPUNT=B10001111;
+const byte UPUNT=B10111110;
+const byte YPUNT=B10111011;
+const byte ZPUNT=B11101101;
+
+//Kleine letter zonder punt
+const byte a=B01111101;
+const byte b=B00011111;
+const byte c=B00001101;
+const byte d=B00111101;
+const byte e=B01101111;
+const byte f=B01000111;
+const byte g=B01111011;
+const byte h=B00010111;
+const byte i=B00010000;
+const byte j=B00111100;
+const byte l=B00000110;
+const byte n=B00010101;
+const byte o=B00011101;
+const byte p=B01100111;
+const byte q=B01110011;
+const byte r=B00000101;
+const byte s=B01011011;
+const byte t=B00001111;
+const byte u=B00011100;
+const byte y=B00111011;
+const byte z=B01101101;
+
+//Kleine letter met punt
+const byte apunt=B11111101;
+const byte bpunt=B10011111;
+const byte cpunt=B10001101;
+const byte dpunt=B00111101;
+const byte epunt=B11101111;
+const byte fpunt=B11000111;
+const byte gpunt=B11111011;
+const byte hpunt=B10010111;
+const byte ipunt=B10010000;
+const byte jpunt=B10111100;
+const byte lpunt=B10000110;
+const byte npunt=B10010101;
+const byte opunt=B10011101;
+const byte ppunt=B11100111;
+const byte qpunt=B11110011;
+const byte rpunt=B10000101;
+const byte spunt=B11011011;
+const byte tpunt=B10001111;
+const byte upunt=B10011100;
+const byte ypunt=B10111011;
+const byte zpunt=B11101101;
+
+//Getallen zonder punt
+const byte nul=B01111110;
+const byte een=B00110000;
+const byte twee=B01101101;
+const byte drie=B01111001;
+const byte vier=B00110011;
+const byte vijf=B01011011;
+const byte zes=B01011111;
+const byte zeven=B01110000;
+const byte acht=B01111111;
+const byte negen=B01111011;
+
+//Getallen met punt
+const byte nulpunt=B11111110;
+const byte eenpunt=B10110000;
+const byte tweepunt=B11101101;
+const byte driepunt=B11111001;
+const byte vierpunt=B10110011;
+const byte vijfpunt=B11011011;
+const byte zespunt=B11011111;
+const byte zevenpunt=B11110000;
+const byte achtpunt=B11111111;
+const byte negenpunt=B11111011;
+
+//Speciale Tekens
+const byte graden=B01100011;
+const byte punt=B10000000;
+const byte minteken=B00000001;
+
+//Leeg
+const byte SPACE=B00000000;
+
+
+void initialise()
+{
+  digitalWrite(MAX7219_CS, HIGH);
+  pinMode(MAX7219_DIN, OUTPUT);
+  pinMode(MAX7219_CS, OUTPUT);
+  pinMode(MAX7219_CLK, OUTPUT);
+}
+
+void output(byte address, byte data)
+{
+  digitalWrite(MAX7219_CS, LOW);
+  shiftOut(MAX7219_DIN, MAX7219_CLK, MSBFIRST, address);
+  shiftOut(MAX7219_DIN, MAX7219_CLK, MSBFIRST, data);
+  digitalWrite(MAX7219_CS, HIGH);
+}
+
+void setup() {
+  // put your setup code here, to run once:
+  initialise();
+  output(0x0f, 0x00); //display test register - test mode off
+  output(0x0c, 0x01); //shutdown register - normal operation
+  output(0x0b, 0x07); //scan limit register - display digits 0 thru 7
+  output(0x0a, 0x0f); //intensity register - max brightness
+  output(0x09, 0); //decode mode register - CodeB decode all digits
+  output(0x08, O); //1. Start (first segment)
+  output(0x07, minteken); //2.
+  output(0x06, E); //3.
+  output(0x05, N); //4.
+  output(0x04, minteken); //5.
+  output(0x03, O); //6.
+  output(0x02, SPACE); //7.
+  output(0x01, SPACE); //8. //digit 0 (rightmost digit) data
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+}
+
